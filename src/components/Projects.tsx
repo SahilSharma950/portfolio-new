@@ -71,7 +71,34 @@ const Projects = () => {
     filter === 'all' ? projects : projects.filter((p) => p.category === filter);
 
   return (
-    <section id="projects" className="relative py-20 bg-gradient-to-b from-black to-gray-900" ref={ref}>
+    <section id="projects" className="relative py-20 bg-gradient-to-b from-black to-gray-900 overflow-hidden" ref={ref}>
+      {/* Animated background elements */}
+      <motion.div
+        className="absolute top-1/3 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl"
+        animate={{
+          y: [0, -100, 0],
+          scale: [1, 1.2, 1],
+          rotate: [0, 90, 0],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+      <motion.div
+        className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl"
+        animate={{
+          y: [0, 100, 0],
+          scale: [1.2, 1, 1.2],
+          rotate: [0, -90, 0],
+        }}
+        transition={{
+          duration: 22,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
       <div className="section-container">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

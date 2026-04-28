@@ -41,8 +41,25 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
             className="text-2xl font-bold gradient-text cursor-pointer"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
           >
-            STC
+            <motion.span
+              animate={{
+                textShadow: [
+                  '0 0 10px rgba(0, 212, 255, 0.5)',
+                  '0 0 20px rgba(0, 212, 255, 0.8)',
+                  '0 0 10px rgba(0, 212, 255, 0.5)',
+                ],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            >
+              STC
+            </motion.span>
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -56,9 +73,14 @@ const Navbar = () => {
               >
                 <Link
                   href={link.href}
-                  className="text-gray-300 hover:text-cyan-400 transition-colors duration-300 relative group"
+                  className="text-gray-300 hover:text-cyan-400 transition-colors duration-300 relative group inline-block"
                 >
-                  {link.name}
+                  <motion.span
+                    whileHover={{ y: -2 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
+                    {link.name}
+                  </motion.span>
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-500 group-hover:w-full transition-all duration-300"></span>
                 </Link>
               </motion.div>

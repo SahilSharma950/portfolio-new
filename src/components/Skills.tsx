@@ -73,7 +73,32 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="relative py-20 bg-gradient-to-b from-gray-900 to-black" ref={ref}>
+    <section id="skills" className="relative py-20 bg-gradient-to-b from-gray-900 to-black overflow-hidden" ref={ref}>
+      {/* Animated background orbs */}
+      <motion.div
+        className="absolute top-1/4 right-0 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl"
+        animate={{
+          x: [0, -100, 0],
+          scale: [1, 1.3, 1],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+      <motion.div
+        className="absolute bottom-1/4 left-0 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"
+        animate={{
+          x: [0, 100, 0],
+          scale: [1.3, 1, 1.3],
+        }}
+        transition={{
+          duration: 18,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
       <div className="section-container">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

@@ -5,6 +5,18 @@ import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { HeroCanvas } from './3d/HeroScene';
 
+// Generate particles outside component to avoid React purity warnings
+const generateParticles = (count: number) => {
+  return Array.from({ length: count }, () => ({
+    x: Math.random() * 100 - 50,
+    duration: 10 + Math.random() * 10,
+    delay: Math.random() * 10,
+    left: Math.random() * 100,
+  }));
+};
+
+const PARTICLES = generateParticles(20);
+
 const Hero = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -23,8 +35,44 @@ const Hero = () => {
         <HeroCanvas mousePosition={mousePosition} />
       </div>
 
-      {/* Overlay gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50 z-10"></div>
+      {/* Animated gradient overlay */}
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50 z-10"
+        animate={{
+          opacity: [0.5, 0.8, 0.5],
+        }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+
+      {/* Floating particles effect */}
+      <div className="absolute inset-0 z-15 pointer-events-none">
+        {PARTICLES.map((particle, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 bg-cyan-400/30 rounded-full"
+            animate={{
+              y: [0, -1000],
+              x: particle.x,
+              opacity: [0, 1, 0],
+              scale: [0, 1, 0],
+            }}
+            transition={{
+              duration: particle.duration,
+              repeat: Infinity,
+              delay: particle.delay,
+              ease: 'linear',
+            }}
+            style={{
+              left: `${particle.left}%`,
+              bottom: 0,
+            }}
+          />
+        ))}
+      </div>
 
       {/* Content */}
       <div className="relative z-20 text-center px-4 max-w-5xl mx-auto">
@@ -72,18 +120,34 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 1 }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <a
+          <motion.a
             href="#projects"
-            className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full text-white font-semibold text-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-105"
+            className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full text-white font-semibold text-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
+            whileHover={{ scale: 1.05, y: -5 }}
+            whileTap={{ scale: 0.95 }}
+            animate={{
+              boxShadow: [
+                '0 0 20px rgba(0, 212, 255, 0.3)',
+                '0 0 40px rgba(0, 212, 255, 0.6)',
+                '0 0 20px rgba(0, 212, 255, 0.3)',
+              ],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
           >
             View My Work
-          </a>
-          <a
+          </motion.a>
+          <motion.a
             href="#contact"
-            className="px-8 py-4 glass-effect rounded-full text-white font-semibold text-lg hover:bg-white/10 transition-all duration-300 transform hover:scale-105 border border-cyan-500/30"
+            className="px-8 py-4 glass-effect rounded-full text-white font-semibold text-lg hover:bg-white/10 transition-all duration-300 border border-cyan-500/30"
+            whileHover={{ scale: 1.05, y: -5, borderColor: 'rgba(0, 212, 255, 0.8)' }}
+            whileTap={{ scale: 0.95 }}
           >
             Contact Me
-          </a>
+          </motion.a>
         </motion.div>
 
         {/* Scroll indicator */}
@@ -94,11 +158,24 @@ const Hero = () => {
           className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
         >
           <motion.div
-            animate={{ y: [0, 10, 0] }}
+            animate={{ 
+              y: [0, 10, 0],
+              borderColor: ['rgba(0, 212, 255, 0.5)', 'rgba(0, 212, 255, 1)', 'rgba(0, 212, 255, 0.5)'],
+            }}
             transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-6 h-10 border-2 border-cyan-400 rounded-full flex justify-center"
+            className="w-6 h-10 border-2 rounded-full flex justify-center"
           >
-            <div className="w-1 h-3 bg-cyan-400 rounded-full mt-2"></div>
+            <motion.div 
+              animate={{
+                y: [0, 12, 0],
+                opacity: [0, 1, 0],
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+              }}
+              className="w-1 h-3 bg-cyan-400 rounded-full mt-2"
+            />
           </motion.div>
         </motion.div>
       </div>

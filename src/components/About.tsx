@@ -16,7 +16,32 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="relative py-20 bg-gradient-to-b from-black to-gray-900" ref={ref}>
+    <section id="about" className="relative py-20 bg-gradient-to-b from-black to-gray-900 overflow-hidden" ref={ref}>
+      {/* Animated background elements */}
+      <motion.div
+        className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/5 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.2, 1],
+          x: [0, 50, 0],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+      <motion.div
+        className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"
+        animate={{
+          scale: [1.2, 1, 1.2],
+          x: [0, -50, 0],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
       <div className="section-container">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

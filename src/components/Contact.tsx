@@ -40,7 +40,32 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="relative py-20 bg-gradient-to-b from-gray-900 to-black" ref={ref}>
+    <section id="contact" className="relative py-20 bg-gradient-to-b from-gray-900 to-black overflow-hidden" ref={ref}>
+      {/* Animated background orbs */}
+      <motion.div
+        className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-3xl"
+        animate={{
+          y: [0, 100, 0],
+          scale: [1, 1.3, 1],
+        }}
+        transition={{
+          duration: 18,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+      <motion.div
+        className="absolute bottom-0 left-1/4 w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-3xl"
+        animate={{
+          y: [0, -100, 0],
+          scale: [1.3, 1, 1.3],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
       <div className="section-container">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
