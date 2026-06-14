@@ -4,12 +4,31 @@ import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import ProjectCard3D from './3d/ProjectCard3D';
 
+type ProjectCategory = 'all' | 'fullstack' | 'backend' | 'automation';
+
+type Project = {
+  title: string;
+  description: string;
+  image: string;
+  techStack: string[];
+  category: Exclude<ProjectCategory, 'all'>;
+  liveUrl?: string;
+  githubUrl?: string;
+};
+
+const projectFilters: { name: string; value: ProjectCategory }[] = [
+  { name: 'All Projects', value: 'all' },
+  { name: 'Full Stack', value: 'fullstack' },
+  { name: 'Backend', value: 'backend' },
+  { name: 'AI & Automation', value: 'automation' },
+];
+
 const Projects = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState<ProjectCategory>('all');
 
-  const projects = [
+  const projects: Project[] = [
     {
       title: 'Project Play - Sports Booking Platform',
       description: 'Scalable backend for web, mobile, and admin panels with Padel/Pickleball slot booking, Firebase notifications, Stripe web payments, in-app purchases, refunds, AWS S3, Docker, Nginx, and CI/CD.',
@@ -86,12 +105,7 @@ const Projects = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="flex flex-wrap justify-center gap-4 mb-12"
         >
-          {[
-            { name: 'All Projects', value: 'all' },
-            { name: 'Full Stack', value: 'fullstack' },
-            { name: 'Backend', value: 'backend' },
-            { name: 'AI & Automation', value: 'automation' },
-          ].map((btn) => (
+          {projectFilters.map((btn) => (
             <button
               key={btn.value}
               onClick={() => setFilter(btn.value)}
