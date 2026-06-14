@@ -13,13 +13,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MERN Stack Developer | Portfolio",
-  description: "Full-stack MERN developer specializing in MongoDB, Express.js, React, and Node.js. Building modern, scalable web applications with cutting-edge technology.",
-  keywords: ["MERN Stack", "React Developer", "Node.js", "MongoDB", "Express.js", "Full Stack Developer", "Web Development"],
-  authors: [{ name: "Your Name" }],
+  title: "Sahil Sharma | MERN Stack Developer",
+  description: "Portfolio of Sahil Sharma, a MERN Stack Developer with 2+ years of experience building scalable web apps, backend APIs, admin panels, payments, subscriptions, and real-time features.",
+  keywords: ["Sahil Sharma", "MERN Stack Developer", "React Developer", "Node.js", "MongoDB", "Express.js", "Next.js", "Full Stack Developer"],
+  authors: [{ name: "Sahil Sharma" }],
   openGraph: {
-    title: "MERN Stack Developer | Portfolio",
-    description: "Full-stack MERN developer specializing in MongoDB, Express.js, React, and Node.js.",
+    title: "Sahil Sharma | MERN Stack Developer",
+    description: "MERN Stack Developer building scalable web and backend systems for web and mobile applications.",
     type: "website",
   },
 };

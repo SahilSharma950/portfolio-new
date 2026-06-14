@@ -1,7 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import SkillCard3D from './3d/SkillCard3D';
 
@@ -11,94 +10,101 @@ const Skills = () => {
 
   const skills = [
     {
-      name: 'MongoDB',
-      icon: '🍃',
-      level: 90,
-      description: 'Experienced in designing database schemas, aggregation pipelines, and optimizing queries for performance.',
-    },
-    {
-      name: 'Express.js',
-      icon: '⚡',
-      level: 92,
-      description: 'Building RESTful APIs, middleware, and server-side applications with robust error handling.',
-    },
-    {
-      name: 'React',
-      icon: '⚛️',
+      name: 'React.js',
+      icon: 'RX',
       level: 95,
-      description: 'Creating dynamic UIs with hooks, context API, state management, and modern React patterns.',
+      description: 'Building responsive web applications, reusable components, dashboards, and interactive frontend flows.',
     },
     {
       name: 'Node.js',
-      icon: '🟢',
+      icon: 'ND',
       level: 93,
-      description: 'Developing scalable backend services, real-time applications, and microservices architecture.',
+      description: 'Developing backend services, real-time features, integrations, and production-ready application logic.',
     },
     {
-      name: 'PostgreSQL',
-      icon: '🐘',
-      level: 88,
-      description: 'Working with relational databases, complex queries, joins, and database optimization techniques.',
+      name: 'Express.js',
+      icon: 'EX',
+      level: 92,
+      description: 'Creating REST APIs, middleware, authentication flows, role-based access, and mobile-ready endpoints.',
     },
     {
-      name: 'JavaScript',
-      icon: '📜',
-      level: 95,
-      description: 'Deep understanding of ES6+, async/await, closures, and modern JavaScript features.',
-    },
-    {
-      name: 'TypeScript',
-      icon: '🔷',
-      level: 88,
-      description: 'Writing type-safe code with interfaces, generics, and advanced TypeScript patterns.',
+      name: 'MongoDB',
+      icon: 'MDB',
+      level: 90,
+      description: 'Designing schemas, queries, and data models for scalable MERN stack applications.',
     },
     {
       name: 'Next.js',
-      icon: '▲',
+      icon: 'NX',
       level: 87,
-      description: 'Building SSR/SSG applications, API routes, and optimizing performance with Next.js features.',
+      description: 'Building modern React applications with file-based routing, optimized rendering, and production deployment.',
     },
     {
-      name: 'Tailwind CSS',
-      icon: '🎨',
-      level: 90,
-      description: 'Creating responsive, modern UIs with utility-first CSS and custom design systems.',
+      name: 'TypeScript',
+      icon: 'TS',
+      level: 88,
+      description: 'Writing safer application code with typed components, APIs, models, and reusable interfaces.',
     },
     {
-      name: 'Git',
-      icon: '📦',
-      level: 92,
-      description: 'Version control, branching strategies, collaborative workflows, and CI/CD integration.',
+      name: 'PostgreSQL',
+      icon: 'PG',
+      level: 82,
+      description: 'Working with relational data, structured queries, and backend features that need strong consistency.',
     },
+    {
+      name: 'WebSockets',
+      icon: 'RT',
+      level: 86,
+      description: 'Implementing real-time product features for live updates, active sessions, and instant interactions.',
+    },
+    {
+      name: 'Cloud Deployments',
+      icon: 'AWS',
+      level: 84,
+      description: 'Deploying applications with AWS EC2, S3, Vercel, Nginx, Docker, and CI/CD workflows.',
+    },
+  ];
+
+  const tools = [
+    'JavaScript',
+    'HTML',
+    'CSS',
+    'Tailwind CSS',
+    'REST APIs',
+    'BullMQ',
+    'Redis',
+    'AWS',
+    'Azure',
+    'Docker',
+    'Nginx',
+    'CI/CD Pipelines',
+    'Vercel',
+    'S3',
+    'Azure Blob Storage',
+    'Redux Toolkit',
+    'Redux Saga',
+    'Git',
+    'Stripe',
+    'Razorpay',
+    'In-App Purchases',
+    'OpenAI',
+    'Google Gemini',
+    'Postman',
   ];
 
   return (
     <section id="skills" className="relative py-20 bg-gradient-to-b from-gray-900 to-black overflow-hidden" ref={ref}>
-      {/* Animated background orbs */}
       <motion.div
         className="absolute top-1/4 right-0 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl"
-        animate={{
-          x: [0, -100, 0],
-          scale: [1, 1.3, 1],
-        }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
+        animate={{ x: [0, -100, 0], scale: [1, 1.3, 1] }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
         className="absolute bottom-1/4 left-0 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"
-        animate={{
-          x: [0, 100, 0],
-          scale: [1.3, 1, 1.3],
-        }}
-        transition={{
-          duration: 18,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
+        animate={{ x: [0, 100, 0], scale: [1.3, 1, 1.3] }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
       />
+
       <div className="section-container">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -107,11 +113,11 @@ const Skills = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-            My Skills
+            Technical Skills
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-purple-600 mx-auto mb-4"></div>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Technologies and tools I use to bring ideas to life
+            The stack I use to build web apps, backend APIs, dashboards, payments, and production deployments.
           </p>
         </motion.div>
 
@@ -128,7 +134,6 @@ const Skills = () => {
           ))}
         </div>
 
-        {/* Additional tools */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
@@ -139,19 +144,7 @@ const Skills = () => {
             Also Experienced With
           </h3>
           <div className="flex flex-wrap justify-center gap-4">
-            {[
-              'Redux',
-              'GraphQL',
-              'REST APIs',
-              'JWT',
-              'Socket.io',
-              'Mongoose',
-              'Prisma',
-              'AWS',
-              'Docker',
-              'Figma',
-              'VS Code',
-            ].map((tool, index) => (
+            {tools.map((tool, index) => (
               <motion.div
                 key={tool}
                 initial={{ opacity: 0, scale: 0.5 }}

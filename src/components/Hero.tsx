@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import dynamic from 'next/dynamic';
 import { HeroCanvas } from './3d/HeroScene';
 
 // Generate particles outside component to avoid React purity warnings
@@ -111,7 +110,7 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto"
         >
-          Building modern, scalable web applications with MongoDB, Express.js, React, and Node.js
+          Building scalable web and backend systems for web and mobile apps, with strong ownership across APIs, auth, payments, admin panels, and real-time features.
         </motion.p>
 
         <motion.div

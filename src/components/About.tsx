@@ -1,7 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 
 const About = () => {
@@ -10,38 +9,42 @@ const About = () => {
 
   const stats = [
     { label: 'Years Experience', value: '2+' },
-    { label: 'Projects Completed', value: '25+' },
-    { label: 'Technologies', value: '15+' },
-    { label: 'Happy Clients', value: '20+' },
+    { label: 'Production Roles', value: '2' },
+    { label: 'Major Projects', value: '5' },
+    { label: 'Core Technologies', value: '20+' },
+  ];
+
+  const services = [
+    {
+      title: 'Web Apps',
+      description: 'Responsive React.js and Next.js interfaces with TypeScript, Tailwind CSS, Redux Toolkit, and clean state flows.',
+      icon: 'UI',
+    },
+    {
+      title: 'Backend APIs',
+      description: 'REST APIs, auth flows, MongoDB schemas, Redis queues, WebSockets, and integrations used by web and mobile apps.',
+      icon: 'API',
+    },
+    {
+      title: 'Product Delivery',
+      description: 'Admin panels, subscriptions, payments, cloud deployments, and feature-complete systems with end-to-end ownership.',
+      icon: 'E2E',
+    },
   ];
 
   return (
     <section id="about" className="relative py-20 bg-gradient-to-b from-black to-gray-900 overflow-hidden" ref={ref}>
-      {/* Animated background elements */}
       <motion.div
         className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/5 rounded-full blur-3xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          x: [0, 50, 0],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
+        animate={{ scale: [1, 1.2, 1], x: [0, 50, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
         className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"
-        animate={{
-          scale: [1.2, 1, 1.2],
-          x: [0, -50, 0],
-        }}
-        transition={{
-          duration: 12,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
+        animate={{ scale: [1.2, 1, 1.2], x: [0, -50, 0] }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
       />
+
       <div className="section-container">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -56,7 +59,6 @@ const About = () => {
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Left side - Description */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
@@ -64,27 +66,24 @@ const About = () => {
             className="space-y-6"
           >
             <h3 className="text-2xl md:text-3xl font-semibold text-gray-200">
-              Passionate MERN Stack Developer
+              MERN Stack Developer with End-to-End Ownership
             </h3>
             <p className="text-gray-400 text-lg leading-relaxed">
-              I&apos;m a full-stack developer with a strong passion for building modern, 
-              scalable, and user-friendly web applications. With expertise in the MERN 
-              stack (MongoDB, Express.js, React, and Node.js), I create end-to-end 
-              solutions that deliver exceptional user experiences.
+              I&apos;m a MERN Stack Developer with 2+ years of experience building scalable web
+              and backend systems for web and mobile applications. My work spans React.js,
+              Next.js, Node.js, Express.js, MongoDB, PostgreSQL, and production APIs.
             </p>
             <p className="text-gray-400 text-lg leading-relaxed">
-              My journey in web development started over 2 years ago, and since then, 
-              I&apos;ve worked on diverse projects ranging from e-commerce platforms to 
-              real-time applications. I&apos;m constantly learning and exploring new 
-              technologies to stay at the forefront of web development.
+              I&apos;ve delivered authentication, role-based access control, payment
+              integrations, subscriptions, admin panels, WebSocket features, and cloud
+              deployments across real client and product work.
             </p>
             <p className="text-gray-400 text-lg leading-relaxed">
-              When I&apos;m not coding, you can find me exploring open-source projects, 
-              writing technical blogs, or contributing to the developer community.
+              I care about clean architecture, reliable APIs, and owning features from
+              backend design through frontend delivery and deployment.
             </p>
           </motion.div>
 
-          {/* Right side - Stats */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
@@ -108,7 +107,6 @@ const About = () => {
           </motion.div>
         </div>
 
-        {/* Skills overview */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
@@ -116,26 +114,10 @@ const About = () => {
           className="mt-16 text-center"
         >
           <h3 className="text-2xl md:text-3xl font-semibold text-gray-200 mb-8">
-            What I Do
+            What I Build
           </h3>
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Frontend Development',
-                description: 'Building responsive and interactive UIs with React, Next.js, and modern CSS frameworks',
-                icon: '🎨',
-              },
-              {
-                title: 'Backend Development',
-                description: 'Creating robust APIs and server-side logic with Node.js, Express.js, and MongoDB',
-                icon: '⚙️',
-              },
-              {
-                title: 'Full Stack Solutions',
-                description: 'Delivering complete web applications with seamless frontend-backend integration',
-                icon: '🚀',
-              },
-            ].map((item, index) => (
+            {services.map((item, index) => (
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, y: 30 }}
@@ -143,7 +125,7 @@ const About = () => {
                 transition={{ duration: 0.5, delay: 0.2 * index }}
                 className="glass-effect p-8 rounded-xl hover:border-purple-500/50 transition-all duration-300"
               >
-                <div className="text-5xl mb-4">{item.icon}</div>
+                <div className="text-4xl font-bold gradient-text mb-4">{item.icon}</div>
                 <h4 className="text-xl font-semibold text-gray-200 mb-3">{item.title}</h4>
                 <p className="text-gray-400">{item.description}</p>
               </motion.div>
