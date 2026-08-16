@@ -15,7 +15,15 @@ const AnimatedCursor = () => {
     };
 
     const handleMouseOver = (e: MouseEvent) => {
-      if ((e.target as HTMLElement).tagName === 'A' || (e.target as HTMLElement).tagName === 'BUTTON') {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === 'A' ||
+          target.tagName === 'BUTTON' ||
+          target.closest('a') ||
+          target.closest('button') ||
+          target.getAttribute('role') === 'button')
+      ) {
         setIsHovering(true);
       } else {
         setIsHovering(false);

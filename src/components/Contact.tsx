@@ -13,7 +13,10 @@ const Contact = () => {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState('');
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -22,19 +25,108 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: '' });
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const accessKey =
+      process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || '1cbd1af4-74a3-4208-b4a3-d21b4c441b5e';
 
-    setIsSubmitting(false);
-    setSubmitMessage('Message sent successfully! I will get back to you soon.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    try {
+      const formTarget = e.currentTarget;
+      const botcheck = (formTarget.elements.namedItem('botcheck') as HTMLInputElement)?.checked;
 
-    setTimeout(() => {
-      setSubmitMessage('');
-    }, 5000);
+      // If honeypot was triggered by a bot, stop immediately
+      if (botcheck) {
+        setIsSubmitting(false);
+        return;
+      }
+
+      let success = false;
+      let errorMsg = '';
+
+      // 1. Direct FormData submission to Web3Forms
+      try {
+        const submitFormData = new FormData();
+        submitFormData.append('access_key', accessKey);
+        submitFormData.append('name', formData.name.trim());
+        submitFormData.append('email', formData.email.trim());
+        submitFormData.append(
+          'subject',
+          formData.subject.trim()
+            ? `[Portfolio] ${formData.subject.trim()}`
+            : `New message from ${formData.name.trim()}`
+        );
+        submitFormData.append('message', formData.message.trim());
+        submitFormData.append('from_name', 'Sahil Sharma Portfolio');
+
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: submitFormData,
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          success = true;
+        } else {
+          errorMsg = result.message;
+        }
+      } catch {
+        // Continue to server-side route fallback
+      }
+
+      // 2. Server-side API Route fallback
+      if (!success) {
+        try {
+          const apiResponse = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: formData.name.trim(),
+              email: formData.email.trim(),
+              subject: formData.subject.trim(),
+              message: formData.message.trim(),
+            }),
+          });
+
+          const apiResult = await apiResponse.json();
+          if (apiResult.success) {
+            success = true;
+          } else {
+            errorMsg = apiResult.message || errorMsg;
+          }
+        } catch {
+          // If both fail, will display error message below
+        }
+      }
+
+      if (success) {
+        setSubmitStatus({
+          type: 'success',
+          message: 'Message sent successfully! Thank you for reaching out, I will get back to you soon.',
+        });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setSubmitStatus({
+          type: 'error',
+          message:
+            errorMsg ||
+            'Something went wrong while sending your message. Please reach out directly to sahilsharma32520@gmail.com.',
+        });
+      }
+    } catch {
+      setSubmitStatus({
+        type: 'error',
+        message:
+          'Network error. Please check your connection or email directly to sahilsharma32520@gmail.com.',
+      });
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => {
+        setSubmitStatus({ type: null, message: '' });
+      }, 7000);
+    }
   };
 
   const contactDetails = [
@@ -159,6 +251,16 @@ const Contact = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Anti-spam Honeypot */}
+              <input
+                type="checkbox"
+                name="botcheck"
+                className="hidden"
+                style={{ display: 'none' }}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+
               <div>
                 <label htmlFor="name" className="block text-gray-300 mb-2 font-medium">
                   Name
@@ -223,21 +325,65 @@ const Contact = () => {
                 ></textarea>
               </div>
 
-              <button
+              <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg text-white font-semibold text-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                whileHover={{ scale: isSubmitting ? 1 : 1.02, y: isSubmitting ? 0 : -2 }}
+                whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                className="w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg text-white font-semibold text-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer relative z-20 select-none shadow-[0_0_20px_rgba(0,212,255,0.2)] hover:shadow-[0_0_30px_rgba(0,212,255,0.4)]"
               >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
-              </button>
+                {isSubmitting ? (
+                  <div className="flex items-center gap-2 pointer-events-none">
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    <span>Sending...</span>
+                  </div>
+                ) : (
+                  <span className="pointer-events-none">Send Message</span>
+                )}
+              </motion.button>
 
-              {submitMessage && (
+              {submitStatus.type === 'success' && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-300 text-center"
+                  className="p-4 bg-emerald-500/20 border border-emerald-500/50 rounded-lg text-emerald-300 text-center text-sm font-medium flex items-center justify-center gap-2"
                 >
-                  {submitMessage}
+                  <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>{submitStatus.message}</span>
+                </motion.div>
+              )}
+
+              {submitStatus.type === 'error' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300 text-center text-sm font-medium flex items-center justify-center gap-2"
+                >
+                  <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>{submitStatus.message}</span>
                 </motion.div>
               )}
             </form>
@@ -249,3 +395,4 @@ const Contact = () => {
 };
 
 export default Contact;
+
