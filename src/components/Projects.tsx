@@ -2,16 +2,18 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import ProjectCard3D from './3d/ProjectCard3D';
+import ProjectCard3D, { ProjectLink } from './3d/ProjectCard3D';
 
 type ProjectCategory = 'all' | 'fullstack' | 'backend' | 'automation';
 
 type Project = {
   title: string;
-  description: string;
+  description?: string;
+  highlights?: string[];
   image: string;
   techStack: string[];
-  category: Exclude<ProjectCategory, 'all'>;
+  categories: Exclude<ProjectCategory, 'all'>[];
+  links?: ProjectLink[];
   liveUrl?: string;
   githubUrl?: string;
 };
@@ -30,45 +32,112 @@ const Projects = () => {
 
   const projects: Project[] = [
     {
-      title: 'Project Play - Sports Booking Platform',
-      description: 'Scalable backend for web, mobile, and admin panels with Padel/Pickleball slot booking, Firebase notifications, Stripe web payments, in-app purchases, refunds, AWS S3, Docker, Nginx, and CI/CD.',
-      image: 'PLAY',
-      techStack: ['Node.js', 'Express', 'MongoDB', 'Stripe', 'Firebase'],
-      category: 'fullstack',
-    },
-    {
-      title: 'Roffle - Lottery Management System',
-      description: 'Full-stack lottery platform with wallet-based coin participation, admin-controlled raffle creation, automated cancellation refunds, transaction tracking, reward points, WebSocket updates, dashboards, and analytics.',
-      image: 'LOT',
-      techStack: ['React', 'Node.js', 'MongoDB', 'WebSockets', 'Wallets'],
-      category: 'fullstack',
-    },
-    {
-      title: 'Disstrikt - Subscription Platform',
-      description: 'Backend and admin panel for model subscriptions and job/task management with RBAC, employee management, applicant tracking, revenue insights, activity monitoring, AWS S3, Docker, Nginx, and CI/CD.',
+      title: 'Disstrikt',
       image: 'DIST',
-      techStack: ['Node.js', 'Express', 'MongoDB', 'RBAC', 'AWS'],
-      category: 'backend',
+      techStack: ['Next.js', 'React Native', 'Node.js', 'Express.js', 'MongoDB', 'Stripe', 'Twilio', 'HubSpot'],
+      categories: ['fullstack', 'backend', 'automation'],
+      highlights: [
+        'Built a subscription-based platform across 3 platforms (web, mobile, admin), implementing model onboarding, job/task management, role-based workflows, and recurring subscriptions using Stripe and in-app purchases (Android/iOS).',
+        'Developed a sales automation panel handling 60–70 daily users, integrating HubSpot, Twilio, and Resend to automate lead ingestion, WhatsApp outreach, audition scheduling, reminders, and real-time conversion tracking through an analytics dashboard.',
+      ],
+      links: [
+        {
+          label: 'Website',
+          url: 'https://disstrikt-portfolio.vercel.app/',
+          type: 'website',
+        },
+        {
+          label: 'Sales Panel',
+          url: 'https://disstrikt-sales-staging-frontend.vercel.app/',
+          type: 'sales',
+        },
+        {
+          label: 'Play Store',
+          url: 'https://play.google.com/store/apps/details?id=com.aus.disstrikt&pcampaignid=web_share',
+          type: 'android',
+        },
+        {
+          label: 'App Store',
+          url: 'https://apps.apple.com/in/app/disstrikt/id6748515254',
+          type: 'ios',
+        },
+      ],
     },
     {
-      title: 'HabibiRizz - AI-Based Mobile App',
-      description: 'Backend and admin panel for AI-powered pickup lines, chat replies, and screenshot responses with dynamic prompt management, style/dialect configuration, OpenAI, Gemini, model switching, and prompt testing tools.',
-      image: 'AI',
+      title: 'PlayProjectApp (Project Play)',
+      image: 'PLAY',
+      techStack: ['Next.js', 'Node.js', 'Express.js', 'MongoDB', 'Razorpay', 'Twilio'],
+      categories: ['fullstack', 'backend'],
+      highlights: [
+        'Developed a court booking platform for pickleball and padel sports across 3 cities (Patiala, Mohali, Chandigarh), serving 2–4 courts per location and building REST APIs for 3 platforms (mobile, web, admin) with Razorpay payment integration.',
+        'Engineered a time-slot locking system preventing double bookings under concurrent requests, and implemented geo-based autologout as a venue attendance tracking system for field employees.',
+      ],
+      links: [
+        {
+          label: 'Website',
+          url: 'https://www.projectplayapp.com/',
+          type: 'website',
+        },
+        {
+          label: 'Admin Panel',
+          url: 'https://admin.projectplayapp.com/',
+          type: 'admin',
+        },
+        {
+          label: 'Play Store',
+          url: 'https://play.google.com/store/apps/details?id=com.aus.org.badminton&pcampaignid=web_share',
+          type: 'android',
+        },
+        {
+          label: 'App Store',
+          url: 'https://apps.apple.com/in/app/project-play/id6742873090',
+          type: 'ios',
+        },
+      ],
+    },
+    {
+      title: 'Sentinel',
+      image: 'SNTL',
+      techStack: ['Next.js', 'PostgreSQL', 'Prisma', 'Resend'],
+      categories: ['fullstack', 'backend'],
+      highlights: [
+        'Developed an inspection management system with 5 role-based workflows, enabling end-to-end inspection lifecycle management, real-time status tracking, and centralized reporting.',
+        'Designed scalable database models using PostgreSQL and Prisma, and executed large-scale data migration while maintaining data integrity and minimizing downtime.',
+      ],
+      links: [
+        {
+          label: 'Website',
+          url: 'https://sentinel-aus.vercel.app/',
+          type: 'website',
+        },
+      ],
+    },
+    {
+      title: 'Roffle - Lottery Platform',
+      image: 'ROFF',
+      techStack: ['React', 'Node.js', 'MongoDB', 'WebSockets', 'Wallets'],
+      categories: ['fullstack', 'backend'],
+      highlights: [
+        'Full-stack lottery platform with wallet-based coin participation, admin-controlled raffle creation, automated cancellation refunds, and transaction tracking.',
+        'Engineered real-time reward points distribution, WebSocket live updates, admin dashboards, and comprehensive analytics.',
+      ],
+    },
+    {
+      title: 'HabibiRizz - AI Mobile App',
+      image: 'RIZZ',
       techStack: ['Node.js', 'Express', 'MongoDB', 'OpenAI', 'Gemini'],
-      category: 'automation',
-    },
-    {
-      title: 'Disstrikt Sales Panel - Sales Automation Platform',
-      description: 'Sole developer for a Next.js sales automation platform serving 30-40 daily users with HubSpot lead ingestion, WhatsApp outreach through Twilio, audition scheduling, Resend reminders, real-time admin-client communication, and analytics.',
-      image: 'SALE',
-      techStack: ['Next.js', 'Node.js', 'MongoDB', 'Twilio', 'HubSpot'],
-      category: 'automation',
-      liveUrl: 'https://disstrict-sales-panel.vercel.in/',
+      categories: ['automation', 'backend'],
+      highlights: [
+        'Backend and admin panel for AI-powered pickup lines, chat replies, and screenshot responses with dynamic prompt management and style/dialect configuration.',
+        'Integrated OpenAI and Gemini with dynamic model switching, fallback handling, and automated prompt testing tools.',
+      ],
     },
   ];
 
   const filteredProjects =
-    filter === 'all' ? projects : projects.filter((p) => p.category === filter);
+    filter === 'all'
+      ? projects
+      : projects.filter((p) => p.categories.includes(filter as Exclude<ProjectCategory, 'all'>));
 
   return (
     <section id="projects" className="relative py-20 bg-gradient-to-b from-black to-gray-900 overflow-hidden" ref={ref}>
@@ -91,11 +160,11 @@ const Projects = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-            Major Projects
+            Featured Projects
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-purple-600 mx-auto mb-4"></div>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Five live and production systems I have built across sports booking, subscriptions, AI, lottery workflows, sales automation, dashboards, and backend APIs.
+            Production systems, mobile apps, inspection workflows, subscription platforms, and sales automation platforms built with scalable architecture.
           </p>
         </motion.div>
 
@@ -109,9 +178,9 @@ const Projects = () => {
             <button
               key={btn.value}
               onClick={() => setFilter(btn.value)}
-              className={`px-6 py-2 rounded-full transition-all duration-300 ${
+              className={`px-6 py-2 rounded-full transition-all duration-300 font-medium text-sm ${
                 filter === btn.value
-                  ? 'bg-gradient-to-r from-cyan-500 to-purple-600 text-white'
+                  ? 'bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow-[0_0_15px_rgba(0,212,255,0.4)]'
                   : 'glass-effect text-gray-300 hover:text-cyan-400 border border-gray-700'
               }`}
             >
@@ -120,14 +189,16 @@ const Projects = () => {
           ))}
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {filteredProjects.map((project, index) => (
             <ProjectCard3D
               key={project.title}
               title={project.title}
               description={project.description}
+              highlights={project.highlights}
               image={project.image}
               techStack={project.techStack}
+              links={project.links}
               liveUrl={project.liveUrl}
               githubUrl={project.githubUrl}
               delay={0.1 * index}
@@ -139,13 +210,13 @@ const Projects = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="text-center mt-12"
+          className="text-center mt-14"
         >
           <a
             href="https://github.com/SahilSharma950"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 glass-effect rounded-full text-white font-semibold hover:bg-white/10 transition-all duration-300 border border-cyan-500/30"
+            className="inline-flex items-center gap-2 px-8 py-4 glass-effect rounded-full text-white font-semibold hover:bg-white/10 transition-all duration-300 border border-cyan-500/30 shadow-[0_0_20px_rgba(0,212,255,0.15)] hover:shadow-[0_0_25px_rgba(0,212,255,0.3)]"
           >
             <span>View More on GitHub</span>
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -159,3 +230,4 @@ const Projects = () => {
 };
 
 export default Projects;
+

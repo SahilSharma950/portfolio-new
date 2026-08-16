@@ -10,7 +10,7 @@ const About = () => {
   const stats = [
     { label: 'Years Experience', value: '2+' },
     { label: 'Production Roles', value: '2' },
-    { label: 'Major Projects', value: '5' },
+    { label: 'Major Projects', value: '5+' },
     { label: 'Core Technologies', value: '20+' },
   ];
 
